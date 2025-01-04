@@ -1,79 +1,110 @@
-This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
+# TodoList Application Documentation
 
-# Getting Started
+## Overview
+The TodoList application is a React Native-based mobile application that allows users to efficiently manage their tasks. It provides features such as adding, editing, deleting, and marking tasks as completed. The UI is minimalistic, focusing on functionality and logic, ensuring a seamless user experience.
 
->**Note**: Make sure you have completed the [React Native - Environment Setup](https://reactnative.dev/docs/environment-setup) instructions till "Creating a new application" step, before proceeding.
+---
 
-## Step 1: Start the Metro Server
+## Features
+1. **Task Management:**
+   - Add new tasks.
+   - Edit existing tasks.
+   - Delete tasks.
+   - Mark tasks as completed.
+2. **Data Persistence:**
+   - Tasks are stored locally using AsyncStorage to ensure data is preserved between sessions.
+3. **Categorization:**
+   - Fetch and display priority tasks.
+   - View all tasks or specific categories.
 
-First, you will need to start **Metro**, the JavaScript _bundler_ that ships _with_ React Native.
+---
 
-To start Metro, run the following command from the _root_ of your React Native project:
+## Packages Used
+1. **@react-native-async-storage/async-storage:**
+   - Used for persistent local storage of tasks.
+2. **react-native-wind:**
+   - Utility-first CSS styling for React Native components.
+3. **react-native-ui-datepicker:**
+   - Provides an easy-to-use date picker for setting task deadlines.
+4. **react-native-heroicons:**
+   - Provides icons for better visual representation.
+5. **@react-navigation/stack & @react-navigation/native:**
+   - Implements stack-based navigation between screens.
+6. **react-native-screens:**
+   - Optimizes performance by using native screens.
+7. **react-native-safe-area-context:**
+   - Ensures the app layout respects device safe areas.
+8. **react-native-rename:**
+   - Helps in renaming the app during development.
 
-```bash
-# using npm
-npm start
+---
 
-# OR using Yarn
-yarn start
-```
+## Pages
+1. **Onboarding:**
+   - Introduces users to the app’s features and functionality.
+2. **Home:**
+   - Displays an overview of tasks, categorized into priority, completed, and pending tasks.
+3. **Create Task:**
+   - Provides a form to add a new task, including fields for title, description, deadline, and priority.
+4. **View Tasks:**
+   - Displays a detailed list of tasks using a FlatList component.
+5. **Edit Task:**
+   - Allows users to modify task details.
 
-## Step 2: Start your Application
+---
 
-Let Metro Bundler run in its _own_ terminal. Open a _new_ terminal from the _root_ of your React Native project. Run the following command to start your _Android_ or _iOS_ app:
+## Fonts
+- **Open Sans:** Used for all textual content, ensuring readability and consistency.
 
-### For Android
+---
 
-```bash
-# using npm
-npm run android
+## Helpers
+### AsyncHelpers
+1. **addTask:** Adds a new task to AsyncStorage.
+2. **editTask:** Updates an existing task in AsyncStorage.
+3. **deleteTask:** Removes a task from AsyncStorage.
+4. **fetchTask:** Retrieves a specific task based on its ID.
+5. **fetchAllTasks:** Fetches all tasks stored in AsyncStorage.
+6. **fetchPriorityTasks:** Fetches tasks marked with high priority.
+7. **toggleStatusTask:** Toggles the completion status of a task.
 
-# OR using Yarn
-yarn android
-```
+---
 
-### For iOS
+## Development Details
+### Core Points
+1. **Task Operations:**
+   - Users can perform CRUD (Create, Read, Update, Delete) operations on tasks.
+2. **Components Used:**
+   - **FlatList:** Displays lists of tasks efficiently.
+   - **TextInput:** Provides input fields for adding and editing tasks.
+   - **TouchableOpacity:** Handles button-like interactions.
+3. **State Management:**
+   - **useState:** Manages component-level states like task data.
+   - **useContext:** Shares state across different components efficiently.
 
-```bash
-# using npm
-npm run ios
+### Navigation
+- Navigation between screens is managed using React Navigation with a stack-based approach for a clean transition.
 
-# OR using Yarn
-yarn ios
-```
+---
 
-If everything is set up _correctly_, you should see your new app running in your _Android Emulator_ or _iOS Simulator_ shortly provided you have set up your emulator/simulator correctly.
+## Installation and Setup
+1. Clone the repository.
+2. Run `npm install` to install all dependencies.
+3. Start the Metro bundler using `npm start`.
+4. Run the application:
+   - For Android: `npm run android`
+   - For iOS: `npm run ios`
 
-This is one way to run your app — you can also run it directly from within Android Studio and Xcode respectively.
+---
 
-## Step 3: Modifying your App
+## Future Enhancements
+1. **Cloud Sync:** Integrate Firebase or another backend service for cloud-based task storage.
+2. **User Authentication:** Add user accounts to allow personalized task lists.
+3. **Notifications:** Implement reminders for upcoming deadlines.
+4. **Advanced Filtering:** Enable filtering by tags, priorities, or completion status.
 
-Now that you have successfully run the app, let's modify it.
+---
 
-1. Open `App.tsx` in your text editor of choice and edit some lines.
-2. For **Android**: Press the <kbd>R</kbd> key twice or select **"Reload"** from the **Developer Menu** (<kbd>Ctrl</kbd> + <kbd>M</kbd> (on Window and Linux) or <kbd>Cmd ⌘</kbd> + <kbd>M</kbd> (on macOS)) to see your changes!
+## Conclusion
+The TodoList application offers a robust and user-friendly solution for task management. With its minimalistic design and powerful functionality, it is a handy tool for users seeking to organize their tasks efficiently.
 
-   For **iOS**: Hit <kbd>Cmd ⌘</kbd> + <kbd>R</kbd> in your iOS Simulator to reload the app and see your changes!
-
-## Congratulations! :tada:
-
-You've successfully run and modified your React Native App. :partying_face:
-
-### Now what?
-
-- If you want to add this new React Native code to an existing application, check out the [Integration guide](https://reactnative.dev/docs/integration-with-existing-apps).
-- If you're curious to learn more about React Native, check out the [Introduction to React Native](https://reactnative.dev/docs/getting-started).
-
-# Troubleshooting
-
-If you can't get this to work, see the [Troubleshooting](https://reactnative.dev/docs/troubleshooting) page.
-
-# Learn More
-
-To learn more about React Native, take a look at the following resources:
-
-- [React Native Website](https://reactnative.dev) - learn more about React Native.
-- [Getting Started](https://reactnative.dev/docs/environment-setup) - an **overview** of React Native and how setup your environment.
-- [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
-- [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
-- [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.

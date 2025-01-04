@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {Alert, StyleSheet, TouchableOpacity, View} from 'react-native';
 import {s} from 'react-native-wind';
 import {constants, theme} from '../constants';
@@ -12,12 +12,16 @@ import {
 import {CheckCircleIcon as CheckCircleIconOutline} from 'react-native-heroicons/outline';
 import {useNavigation} from '@react-navigation/native';
 import moment from 'moment';
+import { useTask } from '../hooks';
 
 const TaskCard = ({title, description, date, status, priority, id}) => {
   const navigation = useNavigation();
+  const [Status, setStatus] = useState(status);
   const filteredPriority = constants.priorities.filter(
-    constantPriority => priority === constantPriority.value,
+    constantPriority => priority === constantPriority.value
   );
+  const {removeTask, toggleStatusTask} = useTask();
+
   return (
     <View style={[s`w-full py-2`]}>
       <View
@@ -33,14 +37,27 @@ const TaskCard = ({title, description, date, status, priority, id}) => {
             <CalendarDaysIcon size={24} color={theme.colors.dark[50]} />
             <Text size={14} color={theme.colors.dark[200]}>
               {date ? moment(date).format('dddd, DD MMM. YYYY') : 'No Date.'}
+              {"\n"}
+              {date ? moment(date).format('hh:mm a') : 'No Time.'}
             </Text>
           </View>
-          {status ? (
-            <CheckCircleIconSolid
-              size={40}
-              color={theme.colors.green[500]}
-              style={s`absolute top-0 right-0`}
-            />
+          {Status ? (
+            <View style={[s`flex-row items-center`, {gap: 7}]}>
+              <TouchableOpacity onPress={() => Alert.alert(`Delete "${title}"`, `Are you Sure to Delete Task "${title}" ?`, [{
+                  text: "Cancel",
+                  onPress: () => {},
+                },{
+                  text: "Delete",
+                  onPress: () => removeTask(id)
+                }])}>
+                <TrashIcon size={30} color={theme.colors.red[500]} />
+              </TouchableOpacity>
+              <CheckCircleIconSolid
+                size={40}
+                color={theme.colors.green[500]}
+                style={s``}
+              />
+            </View>
           ) : (
             <Badge className={`${filteredPriority[0]?.color} w-4/12`}>
               {filteredPriority[0]?.text}
@@ -54,9 +71,9 @@ const TaskCard = ({title, description, date, status, priority, id}) => {
           {description}
         </Text>
         <View style={s`w-full flex-row justify-evenly items-center`}>
-          {!status && (
+          {!Status && (
             <>
-              <TouchableOpacity onPress={() => {}}>
+              <TouchableOpacity onPress={() => toggleStatusTask(id, setStatus)}>
                 <CheckCircleIconOutline
                   size={30}
                   color={theme.colors.primary[50]}
@@ -68,12 +85,12 @@ const TaskCard = ({title, description, date, status, priority, id}) => {
                   color={theme.colors.yellow[500]}
                 />
               </TouchableOpacity>
-              <TouchableOpacity onPress={() => Alert.alert('Delete #999', "Are you Sure to Delete Task ?", [{
+              <TouchableOpacity onPress={() => Alert.alert(`Delete "${title}"`, `Are you Sure to Delete Task ?`, [{
                 text: "Cancel",
                 onPress: () => {},
               },{
                 text: "Delete",
-                onPress: () => {}
+                onPress: () => removeTask(id)
               }])}>
                 <TrashIcon size={30} color={theme.colors.red[500]} />
               </TouchableOpacity>

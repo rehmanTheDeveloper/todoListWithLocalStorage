@@ -9,7 +9,7 @@ import {PlusCircleIcon} from 'react-native-heroicons/solid';
 const Home = ({ navigation }) => {
   return (
     <SafeAreaView
-      style={[s`flex-1 items-center px-3.5 relative`, styles.window]}>
+      style={[s`flex-1 items-center relative`, styles.window]}>
       <Header />
       <Tasks />
       <Button

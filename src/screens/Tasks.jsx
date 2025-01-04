@@ -1,9 +1,13 @@
-import React from 'react';
-import { SafeAreaView, ScrollView, StyleSheet } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { ActivityIndicator, Image, SafeAreaView, ScrollView, StyleSheet, View } from 'react-native';
 import { theme } from '../constants';
 import { s } from 'react-native-wind';
 import { TasksHeader } from '../Layouts';
 import { TaskCard } from '../components';
+import { NoData } from '../assets';
+import { Text } from '../ui-components';
+import { useTask } from '../hooks';
+import { useRefresh } from '../contexts/RefreshContext';
 
 const Tasks = () => {
     return (
@@ -15,59 +19,33 @@ const Tasks = () => {
 }
 
 const TasksSection = () => {
-    const data = [{
-        title: 'Create an Interactive Website.',
-        description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores vel amet rerum! Repudiandae quae totam quibusdam mollitia vero repellat ut possimus cumque.',
-        priority: 'high',
-        status: 1,
-        date: '2024-03-12'
-    },{
-        title: 'Create an Interactive Website.',
-        description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores vel amet rerum! Repudiandae quae totam quibusdam mollitia vero repellat ut possimus cumque.',
-        priority: 'low',
-        status: 0,
-        date: '2024-03-12'
-    },{
-        title: 'Create an Interactive Website.',
-        description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores vel amet rerum! Repudiandae quae totam quibusdam mollitia vero repellat ut possimus cumque.',
-        priority: 'low',
-        status: 1,
-        date: '2024-03-12'
-    },{
-        title: 'Create an Interactive Website.',
-        description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores vel amet rerum! Repudiandae quae totam quibusdam mollitia vero repellat ut possimus cumque.',
-        priority: 'normal',
-        status: 0,
-        date: '2024-03-12'
-    },{
-        title: 'Create an Interactive Website.',
-        description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores vel amet rerum! Repudiandae quae totam quibusdam mollitia vero repellat ut possimus cumque.',
-        priority: 'normal',
-        status: 1,
-        date: '2024-03-12'
-    },{
-        title: 'Create an Interactive Website.',
-        description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores vel amet rerum! Repudiandae quae totam quibusdam mollitia vero repellat ut possimus cumque.',
-        priority: 'high',
-        status: 0,
-        date: '2024-03-12'
-    },{
-        title: 'Create an Interactive Website.',
-        description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores vel amet rerum! Repudiandae quae totam quibusdam mollitia vero repellat ut possimus cumque.',
-        priority: 'normal',
-        status: 1,
-        date: '2024-03-12'
-    }]
+    const {Refresh} = useRefresh();
+    const [Data, setData] = useState([]);
+    const [Loading, setLoading] = useState(true);
+    const { fetchTasks } = useTask();
+
+    useEffect(() => {
+        fetchTasks(setData, setLoading);
+    }, [Refresh]);
 
     return (
         <ScrollView style={s`flex-1 px-3 w-full`} showsVerticalScrollIndicator={false}>
-            {data.map((task) => <TaskCard
-                title={task.title}
-                description={task.description}
-                date={task.date}
-                priority={task.priority}
-                status={task.status}
-            />)}
+            {!Loading ? Data?.length > 0 ? 
+                Data.map((task) => <TaskCard
+                    id={task.id}
+                    title={task.title}
+                    description={task.description}
+                    date={task.date}
+                    priority={task.priority}
+                    status={task.status}
+                    key={task.id}
+                />)
+            : <View style={s`w-full items-center justify-center h-72`}>
+                <Image source={NoData} style={styles.TodayTasksNoDataImage} />
+                <Text size={16}>No Task Added, Yet!</Text>
+            </View> : (
+                <ActivityIndicator size={'large'} color={theme.colors.dark[50]} />
+            )}
         </ScrollView>
     )
 }
@@ -75,7 +53,12 @@ const TasksSection = () => {
 const styles = StyleSheet.create({
     window: {
         backgroundColor: theme.colors.dark[950]
-    }
+    },
+    TodayTasksNoDataImage: {
+        height: 150,
+        width: 150,
+        resizeMode: 'contain'
+    },
 })
 
 export default Tasks
