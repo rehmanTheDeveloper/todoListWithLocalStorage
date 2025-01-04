@@ -8,7 +8,7 @@ import { RefreshProvider } from './src/contexts/RefreshContext';
 const App = () => {
   return(
     <RefreshProvider>
-    <StatusBar backgroundColor={theme.colors.dark[950]} barStyle={'light-content'} />
+      <StatusBar backgroundColor={theme.colors.dark[950]} barStyle={'light-content'} />
       <NavigationContainer>
         <RootNavigator />
       </NavigationContainer>
