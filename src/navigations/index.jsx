@@ -47,7 +47,10 @@ const MainStack = createStackNavigator();
 const MainStackNavigator = () => {
     return (
         <MainStack.Navigator initialRouteName='home' screenOptions={{
-            headerShown: false
+            headerShown: false,
+            cardStyle: {
+                backgroundColor: theme.colors.dark[950]
+            }
         }}>
             <MainStack.Screen name='home' component={Home} />
             <MainStack.Screen name='createTask' component={CreateTask} />

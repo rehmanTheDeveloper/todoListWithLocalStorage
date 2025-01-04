@@ -21,7 +21,7 @@ const PriorityTasks = () => {
   }, [Refresh]);
 
   return (
-    <View style={s`w-full items-center mb-3`}>
+    <View style={s`w-full items-center mb-3 px-3.5`}>
       <View style={s`w-full flex-row items-center justify-between mb-2`}>
         <Text size={20} weight="SemiBold">
           Priority Tasks
